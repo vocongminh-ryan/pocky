@@ -1,6 +1,39 @@
 # pocky
 
-A new Flutter project.
+A Flutter project configured with a feature-first clean architecture structure.
+
+## Architecture
+
+```text
+lib/
+  app/
+    app.dart
+  core/
+    usecases/
+      usecase.dart
+  features/
+    counter/
+      data/
+        datasources/
+        repositories/
+      domain/
+        entities/
+        repositories/
+        usecases/
+      presentation/
+        controllers/
+        pages/
+  injection_container.dart
+  main.dart
+```
+
+## Layer Rules
+
+- `presentation` owns Flutter widgets and controllers.
+- `domain` owns entities, repository contracts, and use cases.
+- `data` implements domain repository contracts and talks to local or remote data sources.
+- `core` contains reusable cross-feature abstractions.
+- `main.dart` only bootstraps dependencies and starts the app.
 
 ## Getting Started
 
