@@ -1,50 +1,47 @@
 # pocky
 
-A Flutter project configured with a feature-first clean architecture structure.
+A Flutter project configured with an app/common/presentation architecture.
 
 ## Architecture
 
 ```text
 lib/
-  app/
-    app.dart
-  core/
-    usecases/
-      usecase.dart
-  features/
-    counter/
-      data/
-        datasources/
-        repositories/
-      domain/
-        entities/
-        repositories/
-        usecases/
-      presentation/
-        controllers/
-        pages/
-  injection_container.dart
-  main.dart
+├── app/                 # GoRouter, root App widget, observers
+├── bootstrap.dart       # Early app setup, errors, dependency wiring
+├── config/              # Environment and settings
+├── common/
+│   ├── bloc/            # Cross-cutting blocs
+│   ├── cubit/           # Shared cubits
+│   ├── repositories/    # Data + domain mapping
+│   ├── services/        # API clients, notifications, storage, ...
+│   ├── models/          # Shared models
+│   └── analytics/       # Analytics events and schemas
+├── constants/           # Themes, typography, spacing
+├── presentation/
+│   ├── pachin_navi/     # Navi, gacha, maps, home
+│   └── pachinator/      # Social
+├── l10n/                # ARB files and generated l10n
+└── main_*.dart          # Flavor entrypoints
+```
+
+## Entry Points
+
+- `lib/main.dart` defaults to development.
+- `lib/main_dev.dart` starts the development flavor.
+- `lib/main_staging.dart` starts the staging flavor.
+- `lib/main_prod.dart` starts the production flavor.
+
+Run a flavor with:
+
+```sh
+flutter run -t lib/main_dev.dart
 ```
 
 ## Layer Rules
 
-- `presentation` owns Flutter widgets and controllers.
-- `domain` owns entities, repository contracts, and use cases.
-- `data` implements domain repository contracts and talks to local or remote data sources.
-- `core` contains reusable cross-feature abstractions.
-- `main.dart` only bootstraps dependencies and starts the app.
-
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Learn Flutter](https://docs.flutter.dev/get-started/learn-flutter)
-- [Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Flutter learning resources](https://docs.flutter.dev/reference/learning-resources)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- `app` owns routing, app shell, and navigation observers.
+- `bootstrap.dart` owns early initialization and global error handling.
+- `config` owns flavor and environment settings.
+- `common` owns reusable repositories, services, models, analytics, and shared state.
+- `constants` owns design constants such as theme and spacing.
+- `presentation` owns screens, widgets, and presentation controllers.

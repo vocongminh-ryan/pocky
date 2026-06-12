@@ -1,0 +1,1 @@
+enum AnalyticsEvent { appStarted, counterIncremented }

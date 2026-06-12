@@ -1,22 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pocky/app/app.dart';
-import 'package:pocky/features/counter/data/datasources/counter_local_data_source.dart';
-import 'package:pocky/features/counter/data/repositories/counter_repository_impl.dart';
-import 'package:pocky/features/counter/domain/usecases/get_counter.dart';
-import 'package:pocky/features/counter/domain/usecases/increment_counter.dart';
-import 'package:pocky/features/counter/presentation/controllers/counter_controller.dart';
+import 'package:pocky/app/router/app_router.dart';
+import 'package:pocky/common/repositories/counter_repository.dart';
+import 'package:pocky/common/services/counter_storage_service.dart';
+import 'package:pocky/config/app_config.dart';
 
 void main() {
   testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    final dataSource = InMemoryCounterLocalDataSource();
-    final repository = CounterRepositoryImpl(dataSource);
-    final controller = CounterController(
-      getCounter: GetCounter(repository),
-      incrementCounter: IncrementCounter(repository),
-    );
+    final storageService = InMemoryCounterStorageService();
+    final counterRepository = CounterRepository(storageService);
+    final router = AppRouter(counterRepository: counterRepository).router();
 
-    await tester.pumpWidget(PockyApp(counterController: controller));
+    await tester.pumpWidget(
+      PockyApp(config: AppConfig.development(), router: router),
+    );
 
     expect(find.text('0'), findsOneWidget);
     expect(find.text('1'), findsNothing);

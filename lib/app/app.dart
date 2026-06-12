@@ -1,24 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:pocky/features/counter/presentation/controllers/counter_controller.dart';
-import 'package:pocky/features/counter/presentation/pages/counter_page.dart';
-import 'package:pocky/injection_container.dart';
+import 'package:go_router/go_router.dart';
+import 'package:pocky/config/app_config.dart';
+import 'package:pocky/constants/app_theme.dart';
 
 class PockyApp extends StatelessWidget {
-  const PockyApp({super.key, this.counterController});
+  const PockyApp({super.key, required this.config, required this.router});
 
-  final CounterController? counterController;
+  final AppConfig config;
+  final GoRouter router;
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Pocky',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-      ),
-      home: CounterPage(
-        controller:
-            counterController ?? AppDependencies.instance.counterController(),
-      ),
+    return MaterialApp.router(
+      title: config.appName,
+      theme: AppTheme.light,
+      routerConfig: router,
+      debugShowCheckedModeBanner: config.showDebugBanner,
     );
   }
 }
