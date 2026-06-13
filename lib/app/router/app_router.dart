@@ -1,17 +1,12 @@
 import 'package:go_router/go_router.dart';
 import 'package:pocky/app/observers/app_route_observer.dart';
-import 'package:pocky/common/repositories/counter_repository.dart';
 import 'package:pocky/presentation/pachin_navi/pages/pachin_navi_home_page.dart';
 import 'package:pocky/presentation/pachinator/pages/pachinator_page.dart';
 
 final class AppRouter {
-  AppRouter({
-    required CounterRepository counterRepository,
-    AppRouteObserver? routeObserver,
-  }) : _counterRepository = counterRepository,
-       _routeObserver = routeObserver ?? AppRouteObserver();
+  AppRouter({AppRouteObserver? routeObserver})
+    : _routeObserver = routeObserver ?? AppRouteObserver();
 
-  final CounterRepository _counterRepository;
   final AppRouteObserver _routeObserver;
 
   GoRouter router() {
@@ -22,8 +17,7 @@ final class AppRouter {
         GoRoute(
           path: PachinNaviHomePage.routePath,
           name: PachinNaviHomePage.routeName,
-          builder: (context, state) =>
-              PachinNaviHomePage(counterRepository: _counterRepository),
+          builder: (context, state) => const PachinNaviHomePage(),
         ),
         GoRoute(
           path: PachinatorPage.routePath,
